@@ -8,7 +8,7 @@ function mapOrderToDatabaseFormat(requestBody) {
             return {
                 productId: parseInt(item.idItem),
                 quantity: item.quantidadeItem,
-                price: item.valorltem
+                price: item.valorItem
             };
         })
     };
