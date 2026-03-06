@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const orderRoutes = require('./src/routes/orderRoutes');
+require('dotenv').config();
 const uri = process.env.MONGO_URI;
 const app = express();
 

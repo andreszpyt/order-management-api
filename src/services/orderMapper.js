@@ -7,7 +7,7 @@ function mapOrderToDatabaseFormat(requestBody) {
         items: requestBody.items.map(item => {
             return {
                 productId: parseInt(item.idItem),
-                quantity: item.quantidadeltem,
+                quantity: item.quantidadeItem,
                 price: item.valorltem
             };
         })
