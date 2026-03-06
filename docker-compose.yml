@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Serviço DB
+  db:
+    image: mongo:latest
+    container_name: order_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Serviço
+  api:
+    build: .
+    container_name: order_api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=mongodb://db:27017/order_api
+
+volumes:
+  mongo_data:
