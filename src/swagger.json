@@ -1,0 +1,150 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Order API",
+    "version": "1.0.0",
+    "description": "API REST para gerenciamento de pedidos"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Gera um token JWT para testes",
+        "tags": ["Autenticação"],
+        "responses": {
+          "200": {
+            "description": "Token gerado com sucesso"
+          }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "summary": "Cria um novo pedido",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "numeroPedido": { "type": "string", "example": "v10089015vdb-01" },
+                  "valor Total": { "type": "number", "example": 10000 },
+                  "dataCriacao": { "type": "string", "example": "2023-07-19T12:24:11.5299601+00:00" },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "idItem": { "type": "string", "example": "2434" },
+                        "quantidadeltem": { "type": "number", "example": 1 },
+                        "valorltem": { "type": "number", "example": 1000 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Pedido criado com sucesso no banco de dados" },
+          "400": { "description": "Erro de validação dos dados" },
+          "401": { "description": "Não autorizado (Token ausente ou inválido)" }
+        }
+      }
+    },
+    "/order/list": {
+      "get": {
+        "summary": "Lista todos os pedidos",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Lista de pedidos retornada com sucesso" }
+        }
+      }
+    },
+    "/order/{id}": {
+      "get": {
+        "summary": "Obtém um pedido pelo número (orderId)",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Número do pedido (Ex: v10089015vdb-01)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Pedido encontrado" },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um pedido existente",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "numeroPedido": "v10089015vdb-01",
+                  "valor Total": 15000,
+                  "dataCriacao": "2023-07-19T12:24:11.5299601+00:00",
+                  "items": [
+                    { "idItem": "2434", "quantidadeltem": 2, "valorltem": 7500 }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Pedido atualizado com sucesso" },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um pedido pelo número",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Pedido deletado com sucesso" },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      }
+    }
+  }
+}

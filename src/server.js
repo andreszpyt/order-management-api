@@ -4,8 +4,12 @@ const orderRoutes = require('./routes/orderRoutes');
 require('dotenv').config();
 const uri = process.env.MONGO_URI;
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', orderRoutes);
 
