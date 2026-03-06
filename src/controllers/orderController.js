@@ -1,28 +1,20 @@
 const Order = require('../models/Order');
 const { mapOrderToDatabaseFormat } = require('../services/orderMapper');
 
-async function createOrder(req, res) {
+async function createOrder(req, res, next) {
     try {
         const mappedData = mapOrderToDatabaseFormat(req.body);
-
         const newOrder = new Order(mappedData);
-
         await newOrder.save();
-
         return res.status(201).json(newOrder);
-
     } catch (error) {
-        return res.status(400).json({
-            message: "Erro ao criar o pedido. Verifique os dados enviados.",
-            error: error.message
-        });
+        next(error);
     }
 }
 
-async function getOrderById(req, res) {
+async function getOrderById(req, res, next) {
     try {
         const { id } = req.params;
-
         const order = await Order.findOne({ orderId: id });
 
         if (!order) {
@@ -30,26 +22,23 @@ async function getOrderById(req, res) {
         }
 
         return res.status(200).json(order);
-
     } catch (error) {
-        return res.status(500).json({ message: "Erro interno do servidor.", error: error.message });
+        next(error);
     }
 }
 
-async function getAllOrders(req, res) {
+async function getAllOrders(req, res, next) {
     try {
         const orders = await Order.find();
-
         return res.status(200).json(orders);
     } catch (error) {
-        return res.status(500).json({ message: "Erro ao listar os pedidos.", error: error.message });
+        next(error);
     }
 }
 
-async function updateOrder(req, res) {
+async function updateOrder(req, res, next) {
     try {
         const { id } = req.params;
-
         const mappedData = mapOrderToDatabaseFormat(req.body);
 
         const updatedOrder = await Order.findOneAndUpdate(
@@ -64,14 +53,13 @@ async function updateOrder(req, res) {
 
         return res.status(200).json(updatedOrder);
     } catch (error) {
-        return res.status(400).json({ message: "Erro ao atualizar o pedido. Verifique os dados.", error: error.message });
+        next(error);
     }
 }
 
-async function deleteOrder(req, res) {
+async function deleteOrder(req, res, next) {
     try {
         const { id } = req.params;
-
         const deletedOrder = await Order.findOneAndDelete({ orderId: id });
 
         if (!deletedOrder) {
@@ -80,7 +68,7 @@ async function deleteOrder(req, res) {
 
         return res.status(200).json({ message: "Pedido deletado com sucesso." });
     } catch (error) {
-        return res.status(500).json({ message: "Erro ao deletar o pedido.", error: error.message });
+        next(error);
     }
 }
 

@@ -6,12 +6,15 @@ const dbURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/jitterbit_api'
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const globalErrorHandler = require('./src/middlewares/errorHandler');
 
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', orderRoutes);
+
+app.use(globalErrorHandler);
 
 mongoose.connect(dbURI)
     .then(() => {
