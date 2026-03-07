@@ -16,6 +16,8 @@ app.use('/', orderRoutes);
 
 app.use(globalErrorHandler);
 
+
+// CONEXÃO MONGO
 mongoose.connect(dbURI)
     .then(() => {
         console.log('Conectado ao banco de dados com sucesso!');

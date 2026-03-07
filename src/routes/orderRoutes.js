@@ -6,7 +6,7 @@ const verifyToken = require('../middlewares/authMiddleware');
 
 router.post('/login', login);
 
-// Rotas Protegidas
+// Rotas Protegidas (PRECISAM DO BEARER)
 router.post('/order', verifyToken, orderController.createOrder);
 router.get('/order/list', verifyToken, orderController.getAllOrders);
 router.get('/order/:id', verifyToken, orderController.getOrderById);

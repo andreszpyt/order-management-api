@@ -1,14 +1,16 @@
+// Função de mapper do JSON
+
 function mapOrderToDatabaseFormat(requestBody) {
     return {
         orderId: requestBody.numeroPedido,
-        value: requestBody["valor Total"],
-        creationDate: requestBody["data Criacao"],
+        value: requestBody["valorTotal"],
+        creationDate: requestBody["dataCriacao"],
 
         items: requestBody.items.map(item => {
             return {
                 productId: parseInt(item.idItem),
-                quantity: item.quantidadeltem,
-                price: item.valorltem
+                quantity: item.quantidadeItem,
+                price: item.valorItem
             };
         })
     };

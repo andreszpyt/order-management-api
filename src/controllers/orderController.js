@@ -1,6 +1,8 @@
 const Order = require('../models/Order');
 const { mapOrderToDatabaseFormat } = require('../services/orderMapper');
 
+
+// CREATE
 async function createOrder(req, res, next) {
     try {
         const mappedData = mapOrderToDatabaseFormat(req.body);
@@ -12,6 +14,7 @@ async function createOrder(req, res, next) {
     }
 }
 
+// GET BY ID
 async function getOrderById(req, res, next) {
     try {
         const { id } = req.params;
@@ -27,6 +30,7 @@ async function getOrderById(req, res, next) {
     }
 }
 
+// GET ALL
 async function getAllOrders(req, res, next) {
     try {
         const orders = await Order.find();
@@ -36,6 +40,7 @@ async function getAllOrders(req, res, next) {
     }
 }
 
+// UPDATE
 async function updateOrder(req, res, next) {
     try {
         const { id } = req.params;
@@ -57,6 +62,7 @@ async function updateOrder(req, res, next) {
     }
 }
 
+// DELETE
 async function deleteOrder(req, res, next) {
     try {
         const { id } = req.params;
